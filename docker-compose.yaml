@@ -1,0 +1,39 @@
+version: '3'
+services:
+
+  postgres:
+    image: "postgres:9.6-alpine"
+    container_name: postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_DB=backend-db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+
+  covid-app:
+    build: ./covid-app
+    container_name: covid-app
+    environment:
+      - DB_SERVER=postgres
+      - POSTGRES_DB=backend-db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 8080:8080
+    links:
+      - postgres
+
+   covid-ui:
+    build: ./covid-ui
+    container_name: covid-ui
+    ports:
+      - 4200:80
+    links:
+      - covid-app
+
+
+volumes:
+  database-data:
