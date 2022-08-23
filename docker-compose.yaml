@@ -1,17 +1,17 @@
 version: '3'
 services:
-
-  postgres:
-    image: "postgres:9.6-alpine"
-    container_name: postgres
-    volumes:
-      - database-data:/var/lib/postgresql/data
-    ports:
-      - 5433:5432
+   mysql:
+    image: mysql:8.0
+    restart: always
+    container_name: mysql
     environment:
-      - POSTGRES_DB=backend-db
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
+      - MYSQL_DATABASE=backend_db
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - '3306:3306'
+    volumes:
+      - database-data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   covid-app:
     build: ./covid-app
@@ -33,7 +33,6 @@ services:
       - 4200:80
     links:
       - covid-app
-
 
 volumes:
   database-data:
