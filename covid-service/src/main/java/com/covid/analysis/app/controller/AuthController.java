@@ -14,9 +14,11 @@ import com.covid.analysis.app.repository.entities.RoleRepository;
 import com.covid.analysis.app.repository.entities.UserRepository;
 import com.covid.analysis.app.security.jwt.JwtUtils;
 import com.covid.analysis.app.utils.Constant;
+import com.covid.analysis.app.validator.ValidatorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,6 +50,8 @@ public class AuthController {
     private JwtUtils jwtUtils;
     @Autowired
     private EmailContentRepository emailContentRepository;
+    @Autowired
+    private ValidatorService validatorService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
 
@@ -71,8 +75,9 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse(false, "Error: Email is already in use!"));
+        ResponseEntity<?> validationResponse = validatorService.validateRegisterUser(signUpRequest);
+        if (!validationResponse.getStatusCode().equals(HttpStatus.OK)) {
+            return validationResponse;
         }
 
         // Create new user's account
