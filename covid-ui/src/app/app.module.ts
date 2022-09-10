@@ -19,7 +19,6 @@ import { LoginComponent } from "./views/auth/login/login.component";
 import { RegisterComponent } from "./views/auth/register/register.component";
 
 // no layouts views
-import { IndexComponent } from "./views/index/index.component";
 import { LandingComponent } from "./views/landing/landing.component";
 import { ProfileComponent } from "./views/profile/profile.component";
 
@@ -81,7 +80,6 @@ import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user
     TablesComponent,
     LoginComponent,
     RegisterComponent,
-    IndexComponent,
     LandingComponent,
     ProfileComponent,
   ],
