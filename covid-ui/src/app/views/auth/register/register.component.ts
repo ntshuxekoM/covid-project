@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { FormsModule } from '@angular/forms';
+import { AuthServiceService } from "src/app/service/auth-service.service";
+
 
 
 @Component({
@@ -7,11 +8,19 @@ import { FormsModule } from '@angular/forms';
   templateUrl: "./register.component.html",
 })
 export class RegisterComponent implements OnInit {
-  constructor() {}
+  constructor(private service: AuthServiceService ) {}
 
   ngOnInit(): void {}
 
   onClickSubmit(data: any) {
     console.log(JSON.stringify(data));
+    this.service.registerUser(data).subscribe({
+      next:(results) => {
+        console.log(results.message);
+      },
+      error: (error) => {
+        
+      }
+    })
   }
 }
