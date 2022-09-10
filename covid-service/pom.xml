@@ -11,7 +11,7 @@
     <groupId>com.covid.analysis</groupId>
     <artifactId>pcovid-analysis</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>pcovid-analysis</name>
+    <name>covid-analysis</name>
     <description>COVID-19 Data Analysis and Prediction</description>
     <properties>
         <java.version>17</java.version>

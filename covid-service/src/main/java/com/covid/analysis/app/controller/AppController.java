@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/phishing-detector")
+@RequestMapping("/api")
 public class AppController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AppController.class);
     @Autowired
@@ -23,8 +23,8 @@ public class AppController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/api/test/hello/v1")
-    public String hello() {
+    @GetMapping("/create-roles")
+    public String createRoles() {
 
         Role role1 = new Role();
         role1.setName(ERole.ROLE_USER);
