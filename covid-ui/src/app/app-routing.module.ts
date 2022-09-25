@@ -14,6 +14,7 @@ import { TablesComponent } from "./views/admin/tables/tables.component";
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
 import { RegisterComponent } from "./views/auth/register/register.component";
+import { ProfileComponent } from "./views/profile/profile.component";
 
 const routes: Routes = [
   // admin views
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: "settings", component: SettingsComponent },
       { path: "tables", component: TablesComponent },
       { path: "maps", component: MapsComponent },
+      { path: "profile", component: ProfileComponent},
       { path: "", redirectTo: "dashboard", pathMatch: "full" },
     ],
   },
@@ -35,7 +37,6 @@ const routes: Routes = [
     children: [
       { path: "login", component: LoginComponent },
       { path: "register", component: RegisterComponent },
-      { path: "", component: LoginComponent },
       { path: "", redirectTo: "login", pathMatch: "full" },
     ],
   }
