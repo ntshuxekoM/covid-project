@@ -11,12 +11,14 @@ import com.covid.analysis.app.payload.YearData;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DashboardService {
 
+    Random rd = new Random();
     public boolean hasAdminRight(Set<Role> roles) {
         boolean isAdmin = false;
         if (roles != null && !roles.isEmpty()) {
@@ -49,9 +51,9 @@ public class DashboardService {
         int max = 10000000;
         CardData data = new CardData();
         data.setTotal((int) (Math.random() * (max - min + 1) + min));
-        data.setPercentage("12%");
+        data.setPercentage("12");
         data.setPercentageTitle("Since yesterday");
-        data.setPercentageIncreased(true);
+        data.setPercentageIncreased(rd.nextBoolean());
         return data;
     }
 
@@ -60,9 +62,9 @@ public class DashboardService {
         int max = 10000000;
         CardData data = new CardData();
         data.setTotal((int) (Math.random() * (max - min + 1) + min));
-        data.setPercentage("1.50%");
+        data.setPercentage("1.50");
         data.setPercentageTitle("Since yesterday");
-        data.setPercentageIncreased(false);
+        data.setPercentageIncreased(rd.nextBoolean());
         return data;
     }
 
@@ -71,9 +73,9 @@ public class DashboardService {
         int max = 10000000;
         CardData data = new CardData();
         data.setTotal((int) (Math.random() * (max - min + 1) + min));
-        data.setPercentage("3.50%");
+        data.setPercentage("3.50");
         data.setPercentageTitle("Since last week");
-        data.setPercentageIncreased(false);
+        data.setPercentageIncreased(rd.nextBoolean());
         return data;
     }
 
@@ -82,9 +84,9 @@ public class DashboardService {
         int max = 10000000;
         CardData data = new CardData();
         data.setTotal((int) (Math.random() * (max - min + 1) + min));
-        data.setPercentage("5,6%");
+        data.setPercentage("5,6");
         data.setPercentageTitle("Since last moth");
-        data.setPercentageIncreased(true);
+        data.setPercentageIncreased(rd.nextBoolean());
         return data;
     }
 
