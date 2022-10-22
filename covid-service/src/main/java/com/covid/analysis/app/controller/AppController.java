@@ -1,6 +1,8 @@
 package com.covid.analysis.app.controller;
 
 import com.covid.analysis.app.payload.DashboardData;
+import com.covid.analysis.app.payload.FuturePrediction;
+import com.covid.analysis.app.payload.VaccinationData;
 import com.covid.analysis.app.repository.entities.UserRepository;
 import com.covid.analysis.app.service.DashboardService;
 import org.slf4j.Logger;
@@ -32,7 +34,22 @@ public class AppController {
         dashboardData.setRegisteredUser(dashboardService.getRegisteredUser());
         LOGGER.info("Get Dashboard data. Data: {}", dashboardData);
         return ResponseEntity.ok(dashboardData);
+    }
 
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/get-future-prediction")
+    public ResponseEntity<?> getFuturePrediction() {
+        FuturePrediction prediction = dashboardService.getFuturePrediction();
+        LOGGER.info("Get Future Prediction. Data: {}", prediction);
+        return ResponseEntity.ok(prediction);
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/get-get-vaccination-data")
+    public ResponseEntity<?> getVaccinationData() {
+        VaccinationData vaccinationData = dashboardService.getVaccinationData();
+        LOGGER.info("Get Vaccination Data: {}", vaccinationData);
+        return ResponseEntity.ok(vaccinationData);
     }
 
 }
