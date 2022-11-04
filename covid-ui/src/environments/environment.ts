@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  appUrl: 'http://localhost:8080/covid/api'
+  appUrl: 'http://covid-service:8081/covid/api'
 };
 
 /*

@@ -1,24 +1,25 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
-/tmp
-/out-tsc
-/.angular
+
 
 # dependencies
 /covid-ui/node_modules
+/covid-ui/dist
+/covid-ui/tmp
+/covid-ui/out-tsc
+/covid-ui/.angular
+/covid-ui/.idea
 
 # IDEs and editors
-/.idea
-/covid-ui/.idea
 /covid-service/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+/covid-service/.idea
+/covid-service/.project
+/covid-service/.classpath
+/covid-service/.c9/
+/covid-service/*.launch
+/covid-service/.settings/
+/covid-service/*.sublime-workspace
 
 # IDE - VSCode
 .vscode/*
