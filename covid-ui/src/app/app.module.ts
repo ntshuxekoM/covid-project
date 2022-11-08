@@ -48,6 +48,9 @@ import { PagesDropdownComponent } from "./components/dropdowns/pages-dropdown/pa
 import { NotificationDropdownComponent } from "./components/dropdowns/notification-dropdown/notification-dropdown.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user-dropdown.component";
+import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
+import { ToastrModule } from "ngx-toastr";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -84,9 +87,18 @@ import { UserDropdownComponent } from "./components/dropdowns/user-dropdown/user
     RegisterComponent,
     LandingComponent,
     ProfileComponent,
+    ForgotPasswordComponent
+
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserAnimationsModule,
+    BrowserModule, 
+    AppRoutingModule, 
+    FormsModule, 
+    HttpClientModule, 
+    ToastrModule.forRoot({
+    positionClass: 'toast-top-right'  })],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

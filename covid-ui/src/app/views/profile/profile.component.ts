@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import {  FormGroup, FormControl } from "@angular/forms";
+import {  UntypedFormGroup, UntypedFormControl } from "@angular/forms";
 import { AuthServiceService } from "src/app/service/auth-service.service";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: "app-profile",
@@ -9,7 +10,7 @@ import { AuthServiceService } from "src/app/service/auth-service.service";
 export class ProfileComponent implements OnInit {
 
   constructor(private authService: AuthServiceService) {}
-  public userProfile: FormGroup;
+  public userProfile: UntypedFormGroup;
 
   ngOnInit(): void {
     let user: any;
@@ -17,18 +18,19 @@ export class ProfileComponent implements OnInit {
     if (user) {
       this.authService.getUserDetailsById(user.token, user.id).subscribe({
         next:(results) => {
-         this.userProfile =  new FormGroup({
-          idNumber: new FormControl(results.idNumber),
-          name: new FormControl(results.name),
-          surname: new FormControl(results.surname),
-          cellNumber: new FormControl(results.cellNumber),
-          email: new FormControl(results.email)});
+         this.userProfile =  new UntypedFormGroup({
+          idNumber: new UntypedFormControl(results.idNumber),
+          name: new UntypedFormControl(results.name),
+          surname: new UntypedFormControl(results.surname),
+          cellNumber: new UntypedFormControl(results.cellNumber),
+          email: new UntypedFormControl(results.email)});
         }
       });
     }
   }
 
-  onClickSubmit() {
-
+    
+  onClickSubmit(data: any) {
+    console.log("Profile Data: ")+JSON.stringify(data) ;
   }
 }

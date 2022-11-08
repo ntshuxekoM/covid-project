@@ -9,8 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FuturePrediction implements Serializable {
+public class Dataset implements Serializable {
 
-    private List<Dataset> datasetList;
-    private List<String> labelList;
+    private String label;
+    private String backgroundColor;
+    private String borderColor;
+    private List<Integer> dataList;
+    private boolean fill;
+
 }

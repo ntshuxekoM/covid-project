@@ -14,6 +14,7 @@ import { TablesComponent } from "./views/admin/tables/tables.component";
 // auth views
 import { LoginComponent } from "./views/auth/login/login.component";
 import { RegisterComponent } from "./views/auth/register/register.component";
+import { ForgotPasswordComponent } from "./views/forgot-password/forgot-password.component";
 import { ProfileComponent } from "./views/profile/profile.component";
 
 const routes: Routes = [
@@ -37,6 +38,7 @@ const routes: Routes = [
     children: [
       { path: "login", component: LoginComponent },
       { path: "register", component: RegisterComponent },
+      { path: "forgot-password", component: ForgotPasswordComponent },
       { path: "", redirectTo: "login", pathMatch: "full" },
     ],
   }

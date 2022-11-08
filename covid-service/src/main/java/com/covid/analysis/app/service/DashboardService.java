@@ -3,19 +3,24 @@ package com.covid.analysis.app.service;
 import com.covid.analysis.app.model.entities.Role;
 import com.covid.analysis.app.model.enums.ERole;
 import com.covid.analysis.app.payload.CardData;
+import com.covid.analysis.app.payload.Dataset;
 import com.covid.analysis.app.payload.FuturePrediction;
 import com.covid.analysis.app.payload.MonthData;
 import com.covid.analysis.app.payload.UserDetails;
 import com.covid.analysis.app.payload.VaccinationData;
 import com.covid.analysis.app.payload.YearData;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DashboardService {
+
+    Random rd = new Random();
 
     public boolean hasAdminRight(Set<Role> roles) {
         boolean isAdmin = false;
@@ -32,16 +37,52 @@ public class DashboardService {
 
     public VaccinationData getVaccinationData() {
         VaccinationData data = new VaccinationData();
-        data.setYear1(buildYear());
-        data.setYear2(buildYear());
+
+        data.setLabelList(
+            Arrays.asList("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT",
+                "NOV", "DEC"));
+
+        List<Dataset> datasetList = new ArrayList<>();
+        datasetList.add(buildDataset("2019", "#008000"));
+        datasetList.add(buildDataset("2020", "#0000000"));
+        datasetList.add(buildDataset("2021", "#000080"));
+        datasetList.add(buildDataset("2022", "#800080"));
+        data.setDatasetList(datasetList);
         return data;
     }
 
     public FuturePrediction getFuturePrediction() {
         FuturePrediction prediction = new FuturePrediction();
-        prediction.setYear1(buildYear());
-        prediction.setYear2(buildYear());
+        prediction.setLabelList(
+            Arrays.asList("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT",
+                "NOV", "DEC"));
+
+        List<Dataset> datasetList = new ArrayList<>();
+        datasetList.add(buildDataset("2019", "#DFFF00"));
+        datasetList.add(buildDataset("2020", "#fff"));
+        datasetList.add(buildDataset("2021", "#008000"));
+        datasetList.add(buildDataset("2022", "#FF00FF"));
+
+        prediction.setDatasetList(datasetList);
         return prediction;
+    }
+
+    private Dataset buildDataset(String label, String color) {
+        Dataset dataset = new Dataset();
+        dataset.setLabel(label);
+        dataset.setBackgroundColor(color);
+        dataset.setBorderColor(color);
+        dataset.setDataList(
+            Arrays.asList(num(), num(), num(), num(), num(), num(), num(), num(), num(), num(),
+                num(), num()));
+        dataset.setFill(false);
+        return dataset;
+    }
+
+    private int num() {
+        int min = 10;
+        int max = 100;
+        return (int) (Math.random() * (max - min + 1) + min);
     }
 
     public CardData getCasualties() {
@@ -49,9 +90,9 @@ public class DashboardService {
         int max = 10000000;
         CardData data = new CardData();
         data.setTotal((int) (Math.random() * (max - min + 1) + min));
-        data.setPercentage("12%");
+        data.setPercentage("12");
         data.setPercentageTitle("Since yesterday");
-        data.setPercentageIncreased(true);
+        data.setPercentageIncreased(rd.nextBoolean());
         return data;
     }
 
@@ -60,9 +101,9 @@ public class DashboardService {
         int max = 10000000;
         CardData data = new CardData();
         data.setTotal((int) (Math.random() * (max - min + 1) + min));
-        data.setPercentage("1.50%");
+        data.setPercentage("1.50");
         data.setPercentageTitle("Since yesterday");
-        data.setPercentageIncreased(false);
+        data.setPercentageIncreased(rd.nextBoolean());
         return data;
     }
 
@@ -71,9 +112,9 @@ public class DashboardService {
         int max = 10000000;
         CardData data = new CardData();
         data.setTotal((int) (Math.random() * (max - min + 1) + min));
-        data.setPercentage("3.50%");
+        data.setPercentage("3.50");
         data.setPercentageTitle("Since last week");
-        data.setPercentageIncreased(false);
+        data.setPercentageIncreased(rd.nextBoolean());
         return data;
     }
 
@@ -82,9 +123,9 @@ public class DashboardService {
         int max = 10000000;
         CardData data = new CardData();
         data.setTotal((int) (Math.random() * (max - min + 1) + min));
-        data.setPercentage("5,6%");
+        data.setPercentage("5,6");
         data.setPercentageTitle("Since last moth");
-        data.setPercentageIncreased(true);
+        data.setPercentageIncreased(rd.nextBoolean());
         return data;
     }
 
@@ -160,8 +201,8 @@ public class DashboardService {
 
 
     public List<UserDetails> getRegisteredUserList() {
-        List<UserDetails> list=new ArrayList<>();
-        UserDetails user=new UserDetails();
+        List<UserDetails> list = new ArrayList<>();
+        UserDetails user = new UserDetails();
         user.setId(1L);
         user.setName("Christoph");
         user.setSurname("Sibiya");
@@ -174,7 +215,7 @@ public class DashboardService {
         user.setCellNumber("0729266076");
         list.add(user);
 
-        user=new UserDetails();
+        user = new UserDetails();
         user.setId(2L);
         user.setName("Ntshuxeko");
         user.setSurname("Mabasa");
@@ -187,7 +228,7 @@ public class DashboardService {
         user.setCellNumber("078566598");
         list.add(user);
 
-        user=new UserDetails();
+        user = new UserDetails();
         user.setId(2L);
         user.setName("Xolani");
         user.setSurname("Mkhonto");
@@ -199,7 +240,7 @@ public class DashboardService {
         user.setCellNumber("078566505");
         list.add(user);
 
-        user=new UserDetails();
+        user = new UserDetails();
         user.setId(2L);
         user.setName("Akani");
         user.setSurname("Makwakwa");
@@ -211,7 +252,7 @@ public class DashboardService {
         user.setCellNumber("078006505");
         list.add(user);
 
-        user=new UserDetails();
+        user = new UserDetails();
         user.setId(2L);
         user.setName("John");
         user.setSurname("Manganyi");
@@ -223,7 +264,7 @@ public class DashboardService {
         user.setCellNumber("078006500");
         list.add(user);
 
-        user=new UserDetails();
+        user = new UserDetails();
         user.setId(2L);
         user.setName("Dunisani");
         user.setSurname("Hlongwane");
@@ -234,7 +275,6 @@ public class DashboardService {
         user.setIdNumber("9604246082059");
         user.setCellNumber("078006890");
         list.add(user);
-
 
         return list;
     }

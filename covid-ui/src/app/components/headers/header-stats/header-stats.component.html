@@ -4,52 +4,110 @@
     <div>
       <!-- Card stats -->
       <div class="flex flex-wrap">
-        <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-          <app-card-stats
+        <div class="w-full lg:w-6/12 xl:w-3/12 px-4" *ngIf="dashboardData.affected.percentageIncreased">
+          <app-card-stats 
             statSubtitle="AFFECTED"
-            statTitle="350,897"
+            statTitle="{{dashboardData.affected.total}}"
             statArrow="up"
-            statPercent="3.48"
+            statPercent="{{dashboardData.affected.percentage}}"
             statPercentColor="text-emerald-500"
-            statDescripiron="Since last month"
+            statDescripiron="{{dashboardData.affected.percentageTitle}}"
+            statIconName="far fa-chart-bar"
+            statIconColor="bg-emerald-500"
+          ></app-card-stats>
+        </div>
+
+        <div class="w-full lg:w-6/12 xl:w-3/12 px-4" *ngIf="!dashboardData.affected.percentageIncreased">
+          <app-card-stats 
+            statSubtitle="AFFECTED"
+            statTitle="{{dashboardData.affected.total}}"
+            statArrow="down"
+            statPercent="{{dashboardData.affected.percentage}}"
+            statPercentColor="text-red-500"
+            statDescripiron="{{dashboardData.affected.percentageTitle}}"
             statIconName="far fa-chart-bar"
             statIconColor="bg-red-500"
           ></app-card-stats>
         </div>
-        <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-          <app-card-stats
+      
+        <div class="w-full lg:w-6/12 xl:w-3/12 px-4" *ngIf="dashboardData.registeredUser.percentageIncreased">
+          <app-card-stats 
             statSubtitle="REGISTERED USERS"
-            statTitle="2,356"
-            statArrow="down"
-            statPercent="3.48"
-            statPercentColor="text-red-500"
-            statDescripiron="Since last week"
-            statIconName="fas fa-chart-pie"
-            statIconColor="bg-orange-500"
+            statTitle="{{dashboardData.registeredUser.total}}"
+            statArrow="up"
+            statPercent="{{dashboardData.registeredUser.percentage}}"
+            statPercentColor="text-emerald-500"
+            statDescripiron="{{dashboardData.registeredUser.percentageTitle}}"
+            statIconName="fas fa-users"
+            statIconColor="bg-emerald-500"
           ></app-card-stats>
         </div>
-        <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-          <app-card-stats
-            statSubtitle="RECOVERIES"
-            statTitle="924"
+
+        <div class="w-full lg:w-6/12 xl:w-3/12 px-4" *ngIf="!dashboardData.registeredUser.percentageIncreased">
+          <app-card-stats 
+            statSubtitle="REGISTERED USERS"
+            statTitle="{{dashboardData.registeredUser.total}}"
             statArrow="down"
-            statPercent="1.10"
-            statPercentColor="text-orange-500"
-            statDescripiron="Since yesterday"
+            statPercent="{{dashboardData.registeredUser.percentage}}"
+            statPercentColor="text-red-500"
+            statDescripiron="{{dashboardData.registeredUser.percentageTitle}}"
             statIconName="fas fa-users"
+            statIconColor="bg-red-500"
+          ></app-card-stats>
+        </div>
+
+
+              
+        <div class="w-full lg:w-6/12 xl:w-3/12 px-4" *ngIf="dashboardData.recoveries.percentageIncreased">
+          <app-card-stats 
+            statSubtitle="RECOVERIES"
+            statTitle="{{dashboardData.recoveries.total}}"
+            statArrow="up"
+            statPercent="{{dashboardData.recoveries.percentage}}"
+            statPercentColor="text-emerald-500"
+            statDescripiron="{{dashboardData.recoveries.percentageTitle}}"
+            statIconName="fas fa-chart-pie"
             statIconColor="bg-pink-500"
           ></app-card-stats>
         </div>
-        <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-          <app-card-stats
+
+        <div class="w-full lg:w-6/12 xl:w-3/12 px-4" *ngIf="!dashboardData.recoveries.percentageIncreased">
+          <app-card-stats 
+            statSubtitle="RECOVERIES"
+            statTitle="{{dashboardData.recoveries.total}}"
+            statArrow="down"
+            statPercent="{{dashboardData.recoveries.percentage}}"
+            statPercentColor="text-red-500"
+            statDescripiron="{{dashboardData.recoveries.percentageTitle}}"
+            statIconName="fas fa-chart-pie"
+            statIconColor="bg-red-500"
+          ></app-card-stats>
+        </div>
+
+
+        <div class="w-full lg:w-6/12 xl:w-3/12 px-4" *ngIf="dashboardData.casualties.percentageIncreased">
+          <app-card-stats 
             statSubtitle="CASUALITIES"
-            statTitle="49,65%"
+            statTitle="{{dashboardData.casualties.total}}"
             statArrow="up"
-            statPercent="12"
+            statPercent="{{dashboardData.casualties.percentage}}"
             statPercentColor="text-emerald-500"
-            statDescripiron="Since last month"
+            statDescripiron="{{dashboardData.casualties.percentageTitle}}"
             statIconName="fas fa-percent"
             statIconColor="bg-emerald-500"
+          ></app-card-stats>
+        </div>
+
+        <div class="w-full lg:w-6/12 xl:w-3/12 px-4" *ngIf="!dashboardData.casualties.percentageIncreased">
+          <app-card-stats 
+            statSubtitle="CASUALITIES"
+            statTitle="{{dashboardData.casualties.total}}"
+            statArrow="down"
+            statPercent="{{dashboardData.casualties.percentage}}"
+            statPercentColor="text-red-500"
+            statDescripiron="{{dashboardData.casualties.percentageTitle}}"
+            statIconName="fas fa-percent"
+            statIconColor="bg-red-500"
           ></app-card-stats>
         </div>
       </div>
