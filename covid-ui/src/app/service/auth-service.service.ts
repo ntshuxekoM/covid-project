@@ -49,4 +49,11 @@ export class AuthServiceService {
     return null;
   }
 
+  resetPassword(data: any): Observable<any> {
+    let headers = new HttpHeaders({'Content-Type': 'application/json' });
+    let options = { headers: headers };
+    let jsonObject = JSON.stringify(data);
+    return this.http.post<any>(this.appUrl + '/auth/forgot-password', jsonObject, options);
+  }
+
 }

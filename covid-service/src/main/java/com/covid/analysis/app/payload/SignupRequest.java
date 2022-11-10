@@ -23,4 +23,5 @@ public class SignupRequest implements Serializable {
     private String surname;
     private String cellNumber;
     private String password;
+    private String confirmPassword;
 }

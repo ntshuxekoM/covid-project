@@ -1,5 +1,6 @@
 package com.covid.analysis.app.controller;
 
+import com.covid.analysis.app.payload.ForgotPassRequest;
 import com.covid.analysis.app.security.services.impl.UserDetailsImpl;
 import com.covid.analysis.app.model.entities.EmailContent;
 import com.covid.analysis.app.model.entities.Role;
@@ -15,6 +16,8 @@ import com.covid.analysis.app.repository.entities.UserRepository;
 import com.covid.analysis.app.security.jwt.JwtUtils;
 import com.covid.analysis.app.utils.Constant;
 import com.covid.analysis.app.validator.ValidatorService;
+import java.util.Optional;
+import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,6 +119,84 @@ public class AuthController {
         saveEmailContent(user,signUpRequest.getPassword());
 
         return ResponseEntity.ok(new MessageResponse(true, "User registered successfully!"));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPassRequest request) {
+        String email = request.getEmail();
+        LOGGER.info("Forgot password, email: {}", email);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            String newPassword = generatePassword();
+            user.setPassword(encoder.encode(newPassword));
+            saveForgotPassEmailContent(user, newPassword);
+            userRepository.save(user);
+            return ResponseEntity.ok()
+                .body(new MessageResponse(true,
+                    "Your password has been updated and sent to your email"));
+        } else {
+            LOGGER.error("User not found, User email: {}", email);
+            return ResponseEntity.badRequest()
+                .body(new MessageResponse(false,
+                    "Error: No registered user with the email provided"));
+        }
+    }
+
+    public String generatePassword() {
+
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                (random.nextFloat() * (rightLimit - leftLimit + 1));
+            Random rand = new Random();
+            int n = rand.nextInt(15) + 1;
+            if (n > 10) {
+                buffer.append(Character.toUpperCase((char) randomLimitedInt));
+            } else {
+                buffer.append((char) randomLimitedInt);
+            }
+        }
+        String generatedString = buffer.toString();
+        generatedString = generatedString.trim();
+        System.out.println(generatedString);
+        LOGGER.info("********************** {} *********************",generatedString);
+        return generatedString;
+    }
+
+    private void saveForgotPassEmailContent(User user, String password) {
+        try {
+            LOGGER.info(
+                "Saving forgot password email content for [Name: {}, Surname: {}, email: {}]",
+                user.getName(), user.getSurname(), user.getEmail());
+
+            String welcome = "<p>Hi #NAME#,</p>"
+                + "<br/>"
+                + "<p>Your password has been updated, below please find your new login details.</p>"
+                + "<br/>"
+                + "<p><b>User Name: </b>  " + user.getEmail() + "</p>"
+                + "<p><b>Password: </b>  " + password + "</p>"
+                + "<p>Our Best</p>"
+                + "<p>COVID-19 Data Analysis Team</p>"
+                + "<br/>";
+            welcome = welcome.replaceAll("#NAME#", user.getName() + " " + user.getSurname());
+            EmailContent emailContent = new EmailContent();
+            emailContent.setFromEmail(Constant.APP_EMAIL);
+            emailContent.setToEmail(user.getEmail());
+            emailContent.setSubject("COVID-19 Data Analysis Forgot Password");
+            emailContent.setContentMssg(welcome);
+            emailContent.setRetryCount(0);
+            emailContent.setRunDate(new Date());
+            emailContent.setCreateUser(user);
+            emailContent.setLastUpdatedUser(user);
+            emailContentRepository.save(emailContent);
+        } catch (Exception e) {
+            LOGGER.error("Error when saving forgot password email email: ", e);
+        }
     }
 
     private void saveEmailContent(User user, String password) {

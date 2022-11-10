@@ -29,35 +29,36 @@ public class ValidatorService {
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return buildBadRequestResponse("Error: Email is already in use!");
+            return buildBadRequestResponse("Error: A user with the email address provided already exist");
         }
 
         if (userRepository.existsByIdNumber(signUpRequest.getIdNumber())) {
-            return buildBadRequestResponse("Error: ID number is already in use!");
+            return buildBadRequestResponse("Error: A user with the ID number provided already exist");
         }
 
         if (!checkRsaId(signUpRequest.getIdNumber())) {
-            return buildBadRequestResponse("Error: Invalid RSA ID number!");
+            return buildBadRequestResponse("Error: Invalid RSA ID number");
         }
 
         if (signUpRequest.getName().length() < 2 || NumberUtils.isNumber(signUpRequest.getName())) {
-            return buildBadRequestResponse("Error: Invalid name!");
+            return buildBadRequestResponse("Error: Invalid name");
         }
 
         if (signUpRequest.getSurname().length() < 2 || NumberUtils.isNumber(
             signUpRequest.getSurname())) {
-            return buildBadRequestResponse("Error: Invalid surname!");
+            return buildBadRequestResponse("Error: Invalid surname");
         }
 
         String[] cellPrefix = {"06", "07", "08", "01"};
         if (!NumberUtils.isNumber(signUpRequest.getCellNumber())
             || signUpRequest.getCellNumber().length() != 10 || !Arrays.asList(cellPrefix)
             .contains(signUpRequest.getCellNumber().substring(0, 2))) {
-            return buildBadRequestResponse("Error: Invalid cell number!");
+            return buildBadRequestResponse("Error: Invalid cell number");
         }
 
         ResponseEntity<?> validatePassword = validatePassword(signUpRequest.getPassword(),
-            signUpRequest.getName(), signUpRequest.getSurname());
+            signUpRequest.getName(), signUpRequest.getSurname(),
+            signUpRequest.getConfirmPassword());
 
         if (!validatePassword.getStatusCode().equals(HttpStatus.OK)) {
             return validatePassword;
@@ -150,7 +151,16 @@ public class ValidatorService {
         return Integer.valueOf(resultS) == checkDigit;
     }
 
-    public ResponseEntity<?> validatePassword(String newPassword, String name, String surname) {
+    public ResponseEntity<?> validatePassword(String newPassword, String name, String surname,
+        String confirmPass) {
+
+        if (confirmPass != null && newPassword != null && !confirmPass.equals(newPassword)) {
+            return buildBadRequestResponse(
+                "Error:Confirm password and password does not match");
+        } else if (confirmPass == null || newPassword == null) {
+            return buildBadRequestResponse(
+                "Error:Confirm password or password is required");
+        }
         if (newPassword != null) {
             if (newPassword.equals(name) || newPassword.equals(surname)) {
                 return buildBadRequestResponse(

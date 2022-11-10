@@ -93,7 +93,8 @@ public class UserController {
             User user = optionalUser.get();
 
             ResponseEntity<?> validationResponse = validatorService.validatePassword(
-                changePassRequest.getNewPassword(), user.getName(), user.getSurname());
+                changePassRequest.getNewPassword(), user.getName(), user.getSurname(),
+                changePassRequest.getConfirmPassword());
 
             if (!validationResponse.getStatusCode().equals(HttpStatus.OK)) {
                 return validationResponse;

@@ -14,68 +14,145 @@
               <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                 Name
               </label>
-              <input type="text"
+              <input type="text" required maxlength="50" minlength="2" id="name" ngModel name="name" #name="ngModel"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                placeholder="Name" name="name" ngModel />
+                placeholder="Name" />
+
+              <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                <div *ngIf="name.errors.required">
+                  <p style="color: red;">Please enter name.</p>
+                </div>
+                <div *ngIf="name.errors.minlength">
+                  <p style="color: red;">Name must be at least 2 characters long and cannot be more than 50 characters long.</p>
+                </div>
+              </div>
             </div>
 
             <div class="relative w-full mb-3">
               <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                 Surname
               </label>
-              <input type="text"
+              <input type="text" required maxlength="50" minlength="2" id="surname" ngModel name="surname" #surname="ngModel"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                placeholder="Surname" name="surname" ngModel />
+                placeholder="Surname"/>
+
+                <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="alert alert-danger">
+                  <div *ngIf="surname.errors.required">
+                    <p style="color: red;"> Please enter surname.</p>
+                  </div>
+                  <div *ngIf="surname.errors.minlength">
+                    <p style="color: red;">Surname must be at least 2 characters long and cannot be more than 50 characters long.</p>
+                  </div>
+                </div>
+
             </div>
 
             <div class="relative w-full mb-3">
               <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                 RSA ID
               </label>
-              <input type="text"
+              <input type="text" required minlength="13" id="idNumber" ngModel name="idNumber" #idNumber="ngModel"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                placeholder="ID Number" name="idNumber" ngModel />
+                placeholder="ID Number" />
+
+                <div *ngIf="idNumber.invalid && (idNumber.dirty || idNumber.touched)" class="alert alert-danger">
+                  <div *ngIf="idNumber.errors.required">
+                    <p style="color: red;"> Please enter Id Number.</p>
+                  </div>
+                  <div *ngIf="idNumber.errors.minlength">
+                    <p style="color: red;">ID number must be 13 characters long</p> 
+                  </div>
+                </div>
+
             </div>
 
             <div class="relative w-full mb-3">
               <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                 Phone Number
               </label>
-              <input type="text"
+              <input type="text" required minlength="10" id="cellNumber" ngModel name="cellNumber" #cellNumber="ngModel"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                placeholder="Phone Number" name="cellNumber" ngModel />
+                placeholder="Phone Number"/>
+
+                <div *ngIf="cellNumber.invalid && (cellNumber.dirty || cellNumber.touched)" class="alert alert-danger">
+                  <div *ngIf="cellNumber.errors.required">
+                    <p style="color: red;"> Please enter phone number.</p>
+                  </div>
+                  <div *ngIf="cellNumber.errors.minlength">
+                    <p style="color: red;">Phone number must be 10 characters long</p> 
+                  </div>
+                </div>
+
             </div>
 
             <div class="relative w-full mb-3">
               <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                 Email
               </label>
-              <input type="email"
+              <input type="email" required maxlength="50" id="email" ngModel name="email" #email="ngModel"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                placeholder="Email" name="email" ngModel />
+                placeholder="Email"/>
+
+                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                  <div *ngIf="email.errors.required">
+                    <p style="color: red;"> Please enter email address.</p>
+                  </div>
+                  <div *ngIf="email.errors.maxlength">
+                    <p style="color: red;">The maximum lenght of email address is 50 characters</p> 
+                  </div>
+                </div>
+
             </div>
 
             <div class="relative w-full mb-3">
               <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                 Password
               </label>
-              <input type="password"
+              <input type="password" required minlength="8" id="password" ngModel name="password" #password="ngModel"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                placeholder="Password" name="password" ngModel />
+                placeholder="Password"/>
+                
+               
+                <div *ngIf="password.invalid && (password.dirty || email.touched)" class="alert alert-danger">
+                  <div *ngIf="password.errors.required">
+                    <p style="color: red;"> Please enter password.</p>
+                  </div>
+                  <div *ngIf="password.errors.minlength">
+                    <p style="color: red;">Password must be 8 characters long.</p> 
+                  </div>
+                </div>
+
+                <p style="color: rgb(0, 68, 255); font-size: small;">Hint: Your password must must be 8 characters long, contain a minimum of eight characters, at least one uppercase letter, one lowercase letter, one number and one special character, and password cannot be your firstname or surname.</p>
+
+
             </div>
 
             <div class="relative w-full mb-3">
               <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
                 Confirm Password
               </label>
-              <input type="password"
+              <input type="password" required minlength="8" id="confirmPassword" ngModel name="confirmPassword" #confirmPassword="ngModel"
                 class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                placeholder="Password" />
+                placeholder="Confirm password" />
+
+                <div *ngIf="passwordMatchError">
+                  <p style="color: red;">Password does not match</p>
+                </div>
+
+                <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)" class="alert alert-danger">
+                  <div *ngIf="confirmPassword.errors.required">
+                    <p style="color: red;">Please enter confirm password.</p>
+                  </div>
+                  <div *ngIf="confirmPassword.errors.minlength">
+                    <p style="color: red;">Confirm password must be 8 characters long.</p> 
+                  </div>
+                </div>
+
             </div>
 
 
             <div class="text-center mt-6">
-              <button
+              <button [disabled]="name.invalid || surname.invalid || idNumber.invalid || cellNumber.invalid || email.invalid || password.invalid || confirmPassword.invalid "
                 class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                 type="submit">
                 Create Account
@@ -97,7 +174,7 @@
         </div>
       </div>
     </div>
-    
+
   </div>
-  
+
 </div>

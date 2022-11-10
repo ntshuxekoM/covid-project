@@ -40,5 +40,15 @@ export class DashboardService {
     return this.http.get<any>(this.appUrl + '/get-get-vaccination-data', options);
   }
 
+  getUserDetails(user: any) {
+    console.log("Getting user details");
+    let queryParams = new HttpParams();
+
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.token });
+    let options = { headers: headers };
+
+    return this.http.get<any>(this.appUrl + '/user/find_users/'+user.id, options);
+  }
+
 
 }

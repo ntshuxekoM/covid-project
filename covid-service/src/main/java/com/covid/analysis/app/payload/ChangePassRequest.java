@@ -18,5 +18,7 @@ public class ChangePassRequest implements Serializable {
     private String oldPassword;
     @NotBlank
     private String newPassword;
+    @NotBlank
+    private String confirmPassword;
 
 }
