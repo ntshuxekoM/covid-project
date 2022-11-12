@@ -10,7 +10,7 @@ spring:
     datasource:
         url: jdbc:mysql://mysql:3306/covid_db
         username: root
-        password: Venus@18
+        password: password
     jpa:
         hibernate:
             ddl-auto: update
