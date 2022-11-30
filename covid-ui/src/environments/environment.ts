@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  appUrl: 'http://13.245.71.74:8081/covid/api'
+  appUrl: 'http://13.246.199.200:8081/covid/api'
 };
 
 /*
