@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  //appUrl: 'http://35.176.223.35:8081/covid/api'
-  appUrl: 'http://localhost:8081/covid/api'
+  appUrl: 'http://35.176.223.35:8081/covid/api'
 };
 
 /*
