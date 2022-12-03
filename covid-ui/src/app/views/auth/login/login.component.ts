@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   onClickSubmit(data: any) {
     this.service.login(data).subscribe({
       next: (results) => {
-        this.service.saveLoggedUser(results);
+        this.service.saveLoggedUser(results,data.password);
         this.toastr.success('Login successful');
         this.router.navigateByUrl("/admin/dashboard");
       },

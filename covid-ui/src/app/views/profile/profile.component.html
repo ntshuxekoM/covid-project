@@ -2,118 +2,226 @@
   <div class="rounded-t bg-white mb-0 px-6 py-6">
     <div class="text-center flex justify-between">
       <h6 class="text-blueGray-700 text-xl font-bold">My account</h6>
-      <button
-        class="bg-red-600 text-white active:bg-red-700 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-        type="button"
-      >
-        Settings
-      </button>
     </div>
   </div>
   <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-    <form #userProfile = "ngForm" (ngSubmit) = "onClickSubmit(userProfile.value)">
+    <form #updateProf="ngForm" (ngSubmit)="onUpdateProfile(updateProf.value)">
       <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
         User Information
       </h6>
+
+      <input type="number" name="id" [(ngModel)]="userDetails.id" hidden>
+      <input type="text" name="idNumber" [(ngModel)]="userDetails.idNumber" hidden>
+
       <div class="flex flex-wrap">
+
+
         <div class="w-full lg:w-12/12 px-4">
           <div class="relative w-full mb-3">
-            <label
-              class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-              htmlFor="grid-password">
-              ID Number
+            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
+              ID number
             </label>
-            <input
-              type="text"
+            <input type="text" style="background-color: bisque"
               class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              disabled
-              formControlName="idNumber"
-              name="idNumber"
-              id="idNumber"
-            />
+              disabled id="idNum" ngModel name="idNum" #idNum="ngModel" [(ngModel)]="userDetails.idNumber" />
           </div>
         </div>
+
         <div class="w-full lg:w-6/12 px-4">
           <div class="relative w-full mb-3">
-            <label
-              class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-              htmlFor="grid-password">
+            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
               First Name
             </label>
-            <input
-              type="text"
+            <input type="text"
               class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              formControlName="name"
-              name="name"
-              id="name"
-              />
+              required maxlength="50" minlength="2" id="name" ngModel name="name" #name="ngModel"
+              placeholder="enter your first name" [(ngModel)]="userDetails.name" />
           </div>
+
+          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+            <div *ngIf="name.errors.required">
+              <p style="font-size: small;color: red;">Your first name is required.</p>
+            </div>
+            <div *ngIf="name.errors.minlength">
+              <p style="font-size: small;color: red;">First name must be at least 2 characters long and cannot be more than 50 characters
+                long.</p>
+            </div>
+          </div>
+
         </div>
+
         <div class="w-full lg:w-6/12 px-4">
           <div class="relative w-full mb-3">
-            <label
-              class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-              htmlFor="grid-password">
-              Last Name
+            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
+              Last name
             </label>
-            <input
-              type="text"
+            <input type="text"
               class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              formControlName="surname"
-              name="surname"
-              id="surname"
-              />
+              name="surname" required maxlength="50" minlength="2" id="surname" ngModel #surname="ngModel"
+              placeholder="enter your last name" [(ngModel)]="userDetails.surname" />
+          </div>
+
+          <div *ngIf="surname.invalid && (surname.dirty || surname.touched)" class="alert alert-danger">
+            <div *ngIf="surname.errors.required">
+              <p style="font-size: small;color: red;"> Your surname is required.</p>
+            </div>
+            <div *ngIf="surname.errors.minlength">
+              <p style="font-size: small;color: red;">Surname must be at least 2 characters long and cannot be more than 50
+                characters long.</p>
+            </div>
           </div>
         </div>
+
+        <div class="w-full lg:w-6/12 px-4">
+          <div class="relative w-full mb-3">
+            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
+              Phone Number
+            </label>
+            <input
+              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+              name="cellNumber" required minlength="10" id="cellNumber" ngModel #cellNumber="ngModel"
+              placeholder="Enter phone Number" [(ngModel)]="userDetails.cellNumber" />
+
+          </div>
+
+          <div *ngIf="cellNumber.invalid && (cellNumber.dirty || cellNumber.touched)" class="alert alert-danger">
+            <div *ngIf="cellNumber.errors.required">
+              <p style="font-size: small;color: red;"> Your phone number is required.</p>
+            </div>
+            <div *ngIf="cellNumber.errors.minlength">
+              <p style="font-size: small;color: red;">Cell phone must be 10 characters long</p>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="w-full lg:w-6/12 px-4">
+          <div class="relative w-full mb-3">
+            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
+              Email Address
+            </label>
+            <input type="text"
+              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+              required maxlength="50" id="email" ngModel name="email" #email="ngModel" type="text"
+              placeholder="Enter your email address" [(ngModel)]="userDetails.email" />
+          </div>
+
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+            <div *ngIf="email.errors.required">
+              <p style="font-size: small;color: red;">Your email address is required.</p>
+            </div>
+            <div *ngIf="email.errors.maxlength">
+              <p style="font-size: small;color: red;">The maximum lenght of email address is 50 characters</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="text-center mt-6">
+          <button [disabled]="name.invalid || surname.invalid || cellNumber.invalid || email.invalid" type="submit"
+            class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150">
+            Update Details
+          </button>
+        </div>
+
+
+
       </div>
 
+
+    </form>
+
+    <form #updatePassword="ngForm" (ngSubmit)="onUpdatePassword(updatePassword.value)">
       <hr class="mt-6 border-b-1 border-blueGray-300" />
 
       <h6 class="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-        Contact Information
+        Login Information
       </h6>
       <div class="flex flex-wrap">
         <div class="w-full lg:w-6/12 px-4">
           <div class="relative w-full mb-3">
-            <label
-              class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-              htmlFor="grid-password">
-              Email Addres
+            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
+              Current Password
             </label>
-            <input
-              type="email"
+            <input type="password"
               class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              formControlName="email"
-              name="email"
-              id="email"
-              />
+              required minlength="8" id="oldPassword" ngModel name="oldPassword" #oldPassword="ngModel"
+              placeholder="Enter current Password" value="" />
           </div>
+
+          <div *ngIf="oldPassword.invalid && (oldPassword.dirty || oldPassword.touched)" class="alert alert-danger">
+            <div *ngIf="oldPassword.errors.required">
+              <p style="font-size: small;color: red;"> Current password is required.</p>
+            </div>
+            <div *ngIf="oldPassword.errors.minlength">
+              <p style="font-size: small;color: red;">Current password must be 8 characters long.</p>
+            </div>
+          </div>
+
         </div>
+
         <div class="w-full lg:w-6/12 px-4">
           <div class="relative w-full mb-3">
-            <label
-              class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-              htmlFor="grid-password">
-              Cell Number
+            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
+              New Password
             </label>
-            <input
-              type="text"
+            <input type="password"
               class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-              formControlName="cellNumber"
-              name="cellNumber"
-              id="cellNumber"
-              />
+              required minlength="8" id="newPassword" ngModel name="newPassword" #newPassword="ngModel"
+              placeholder="Enter new password" value="" />
           </div>
+
+          <div *ngIf="newPassword.invalid && (newPassword.dirty || newPassword.touched)" class="alert alert-danger">
+            <div *ngIf="newPassword.errors.required">
+              <p style="font-size: small;color: red;"> New password is required.</p>
+            </div>
+            <div *ngIf="newPassword.errors.minlength">
+              <p style="font-size: small;color: red;">Password must be 8 characters long.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="w-full lg:w-6/12 px-4">
+          <div class="relative w-full mb-3">
+            <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2" htmlFor="grid-password">
+              Confirm Password
+            </label>
+            <input type="password"
+              class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+              required minlength="8" id="confirmPassword" ngModel name="confirmPassword" #confirmPassword="ngModel"
+              placeholder="Confirm Password" value="" />
+          </div>
+
+          <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)"
+            class="alert alert-danger">
+            <div *ngIf="confirmPassword.errors.required">
+              <p style="font-size: small;color: red;"> Confirm password is required.</p>
+            </div>
+            <div *ngIf="confirmPassword.errors.minlength">
+              <p style="font-size: small;color: red;">Password must be 8 characters long.</p>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="w-full lg:w-6/12 px-4">
+          <input type="number" name="userId" [(ngModel)]="userDetails.id" hidden>
         </div>
         <div class="text-center mt-6">
-          <button
-            class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-            type="submit">
-            Update Details
+
+
+          <button [disabled]="oldPassword.invalid || newPassword.invalid || confirmPassword.invalid" type="submit"
+            class="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150">
+            Update Login Details
           </button>
+
         </div>
       </div>
       <hr class="mt-6 border-b-1 border-blueGray-300" />
+
     </form>
   </div>
 </div>

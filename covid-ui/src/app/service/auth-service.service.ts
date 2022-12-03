@@ -30,10 +30,6 @@ export class AuthServiceService {
     return this.http.post<any>(this.appUrl + '/auth/signin', jsonObject, options);
   }
 
-  saveLoggedUser(user: any) {
-    window.sessionStorage.removeItem(USER_SESSION);
-    window.sessionStorage.setItem(USER_SESSION, JSON.stringify(user));
-  }
 
   getUserDetailsById(userToken: string, userId: number): Observable<userProfile> {
       let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + userToken});
@@ -54,6 +50,40 @@ export class AuthServiceService {
     let options = { headers: headers };
     let jsonObject = JSON.stringify(data);
     return this.http.post<any>(this.appUrl + '/auth/forgot-password', jsonObject, options);
+  }
+
+  saveLoggedUser(user: any, password: string) {
+    console.log("Save Logged User: " + JSON.stringify(user));
+
+    var lr: any = {
+      token: user.token,
+      type: user.type,
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      roles: user.roles,
+      fullName: user.fullName,
+      password: password,
+    };
+
+    window.sessionStorage.removeItem(USER_SESSION);
+    window.sessionStorage.setItem(USER_SESSION, JSON.stringify(lr));
+
+    console.log("Done saving logged in user");
+  }
+
+  updateProfile(data: any, user: any): Observable<any> {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.token });
+    let options = { headers: headers };
+    let jsonObject = JSON.stringify(data);
+    return this.http.post<any>(this.appUrl + '/user/update_users', jsonObject, options);
+  }
+
+  changePassword(data: any, user: any): Observable<any> {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + user.token });
+    let options = { headers: headers };
+    let jsonObject = JSON.stringify(data);
+    return this.http.post<any>(this.appUrl + '/user/change_password', jsonObject, options);
   }
 
 }

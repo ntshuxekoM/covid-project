@@ -12,13 +12,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class ChangePassRequest implements Serializable {
 
-    @NotBlank
     private Long userId;
-    @NotBlank
     private String oldPassword;
-    @NotBlank
     private String newPassword;
-    @NotBlank
     private String confirmPassword;
 
 }

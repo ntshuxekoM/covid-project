@@ -10,20 +10,13 @@ import { DashboardService } from "src/app/service/dashboard.service";
 export class AdminNavbarComponent implements OnInit {
 
   constructor(private service: DashboardService, private authSevice: AuthServiceService, private toastr: ToastrService) { }
-  userDetails:any;
 
   ngOnInit() {
-    this.service.getUserDetails(this.authSevice.getLoggedUser()).subscribe({
-      next: (results) => {
+    
+  }
 
-        this.userDetails = results;
-        console.log("Dashboard Data"+JSON.stringify(this.userDetails));
-      },
-      error: (error) => {
-        console.log(JSON.stringify(error));
-        this.toastr.error('Servie unavailable');
-      }
-    })
+  getCurrentUser(){
+    return this.authSevice.getLoggedUser();
   }
 
 }

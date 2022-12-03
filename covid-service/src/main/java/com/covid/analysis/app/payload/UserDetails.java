@@ -1,5 +1,6 @@
 package com.covid.analysis.app.payload;
 
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,19 +16,12 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserDetails implements Serializable {
 
-    @NotBlank
     private Long id;
-    @NotBlank
     private String name;
-    @NotBlank
     private String surname;
-    @NotBlank
-    @Email
     private String email;
     private Set<String> roles = new HashSet<>();
-    @NotBlank
     private String idNumber;
-    @NotBlank
     private String cellNumber;
 
 }
