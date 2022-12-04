@@ -8,7 +8,7 @@ server:
         context-path: /covid
 spring:
     datasource:
-        url: jdbc:mysql://mysql:3306/covid_db
+        url: jdbc:mysql://13.59.127.196:3306/covid_db
         username: root
         password: Venus@18
     jpa:
