@@ -39,6 +39,10 @@ public class MailSender {
 
     protected final Log logger = LogFactory.getLog(this.getClass());
 
+    /**
+     * This method find all emails records that are not sent
+     * and sends an email
+     * */
     public void sendEmailContent() {
 
         try {

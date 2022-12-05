@@ -14,6 +14,10 @@ public class ScheduledTasks {
     @Autowired
     private MailSender mailSender;
 
+    /**
+     * A scheduler that runs every 2 seconds and sends emails
+     * if there are any emails that are not sent
+     * */
     @Scheduled(fixedDelay = 2000)
     public void scheduleTaskWithFixedDelay() {
         mailSender.sendEmailContent();

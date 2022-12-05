@@ -11,6 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.stereotype.Component;
 
+
+/**
+ * This is a singleton class that retrieve
+ * covid data on startup and store it in more
+ *
+ * This improves the system performance
+ * Because by doing so, we avoid retrieving data from the DB
+ *
+ * */
 @Component
 @Scope(name = ConfigurableBeanFactory.SCOPE_PROTOTYPE, description = "Retrieve Corona Hospitalization Properties")
 @Slf4j

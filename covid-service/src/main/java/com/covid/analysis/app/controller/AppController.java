@@ -26,6 +26,10 @@ public class AppController {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Rest service that returns the data we display on the dashboard
+     * Only user with general user permission(ROLE_USER) can access this service
+     * */
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/get-dashboard-data")
     public ResponseEntity<?> getDashboardData() {
@@ -38,6 +42,10 @@ public class AppController {
         return ResponseEntity.ok(dashboardData);
     }
 
+    /**
+     * Rest service that returns future prediction data
+     * Only user with general user permission(ROLE_USER) can access this service
+     * */
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/get-future-prediction")
     public ResponseEntity<?> getFuturePrediction() {
@@ -46,6 +54,10 @@ public class AppController {
         return ResponseEntity.ok(prediction);
     }
 
+    /**
+     * Rest service that returns vaccination data
+     * Only user with general user permission(ROLE_USER) can access this service
+     * */
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/get-get-vaccination-data")
     public ResponseEntity<?> getVaccinationData() {

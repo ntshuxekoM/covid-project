@@ -4,8 +4,6 @@ import com.covid.analysis.app.config.RetrieveCoronaHospitalizationProp;
 import com.covid.analysis.app.config.RetrieveOwidCovidDataProp;
 import com.covid.analysis.app.model.entities.CoronaHospitalization;
 import com.covid.analysis.app.model.entities.OwidCovidData;
-import com.covid.analysis.app.model.entities.Role;
-import com.covid.analysis.app.model.enums.ERole;
 import com.covid.analysis.app.payload.CardData;
 import com.covid.analysis.app.payload.Dataset;
 import com.covid.analysis.app.payload.FuturePrediction;
@@ -20,7 +18,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,19 +33,10 @@ public class DashboardService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean hasAdminRight(Set<Role> roles) {
-        boolean isAdmin = false;
-        if (roles != null && !roles.isEmpty()) {
-            for (Role role : roles) {
-                if (role.getName() == ERole.ROLE_ADMIN) {
-                    isAdmin = true;
-                    break;
-                }
-            }
-        }
-        return isAdmin;
-    }
 
+    /**
+     * This method builds and return vaccination data
+     */
     public VaccinationData getVaccinationData() {
         VaccinationData data = new VaccinationData();
 
@@ -65,6 +53,10 @@ public class DashboardService {
         return data;
     }
 
+
+    /**
+     * This method build and returns future prediction data
+     */
     public FuturePrediction getFuturePrediction() {
         FuturePrediction prediction = new FuturePrediction();
         prediction.setLabelList(months);
@@ -83,6 +75,14 @@ public class DashboardService {
     }
 
 
+    /**
+     * This method builds future prediction dataset using covid dataset Given a year, this method
+     * will calculate and return the total number of people who were hospitalised on that year for
+     * each month
+     * <p>
+     * If the year is next year, this method will predict the number of people who might be
+     * hospitalised using the existing data
+     */
     private Dataset buildFuturePredictionDataset(String label,
         List<CoronaHospitalization> hospitalizationList, int year, int nextYear) {
         String color = getColor();
@@ -128,6 +128,10 @@ public class DashboardService {
     }
 
 
+    /**
+     * This method is used to calculate the average number of people who are hospitalised per month
+     * using existing covid data The average number is used to do future predictions
+     */
     private int getAveragePerMonth(String month) {
         List<CoronaHospitalization> hospitalizationList =
             RetrieveCoronaHospitalizationProp.getHospitalizationList();
@@ -158,6 +162,11 @@ public class DashboardService {
         return total / count;
     }
 
+    /**
+     * This method is used to calculate the total number of people who are hospitalised per month
+     * using existing covid data The total number is used to calculate the average per month
+     */
+
     private int getTotalPerMonth(List<CoronaHospitalization> hospitalizationList, String month) {
         int total = 0;
         for (CoronaHospitalization hospitalization : hospitalizationList) {
@@ -179,6 +188,15 @@ public class DashboardService {
         return total;
     }
 
+
+    /**
+     * This method builds vaccination dataset using covid dataset Given a year, this method will
+     * calculate and return the total number of people who were vaccinated on that year for each
+     * month
+     * <p>
+     * If the year is next year, this method will predict the number of people who might be
+     * vaccinated using the existing data
+     */
     private Dataset buildVaccinationDataset(String label,
         List<CoronaHospitalization> hospitalizationList, int year, int nextYear) {
         String color = getColor();
@@ -205,29 +223,36 @@ public class DashboardService {
             dataset.setBackgroundColor("#2ECC71");
             dataset.setBorderColor("#2ECC71");
             dataset.setDataList(
-                Arrays.asList(getAverageVaccinated( "01"),
-                    getAverageVaccinated( "02"),
-                    getAverageVaccinated( "03"),
-                    getAverageVaccinated( "04"),
-                    getAverageVaccinated( "05"),
-                    getAverageVaccinated( "06"),
-                    getAverageVaccinated( "07"),
-                    getAverageVaccinated( "08"),
-                    getAverageVaccinated( "09"),
-                    getAverageVaccinated( "10"),
-                    getAverageVaccinated( "11"),
-                    getAverageVaccinated( "12")));
+                Arrays.asList(getAverageVaccinated("01"),
+                    getAverageVaccinated("02"),
+                    getAverageVaccinated("03"),
+                    getAverageVaccinated("04"),
+                    getAverageVaccinated("05"),
+                    getAverageVaccinated("06"),
+                    getAverageVaccinated("07"),
+                    getAverageVaccinated("08"),
+                    getAverageVaccinated("09"),
+                    getAverageVaccinated("10"),
+                    getAverageVaccinated("11"),
+                    getAverageVaccinated("12")));
         }
         dataset.setFill(false);
         return dataset;
     }
 
+    /**
+     * Method to generate a random color String
+     */
     public String getColor() {
         Random random = new Random();
         int nextInt = random.nextInt(0xffffff + 1);
         return String.format("#%06x", nextInt);
     }
 
+
+    /**
+     * This method calculate the total number of people who got vaccinated per month
+     */
     private int getTotalVaccinated(List<CoronaHospitalization> hospitalizationList, String month) {
         int total = 0;
         for (CoronaHospitalization hospitalization : hospitalizationList) {
@@ -257,6 +282,10 @@ public class DashboardService {
         return total;
     }
 
+
+    /**
+     * This method calculate the average of people who got vaccinated per month
+     */
     private int getAverageVaccinated(String month) {
         List<CoronaHospitalization> hospitalizationList =
             RetrieveCoronaHospitalizationProp.getHospitalizationList();
@@ -294,6 +323,10 @@ public class DashboardService {
         return total / count;
     }
 
+
+    /**
+     * This method build and returns the data of people who are affected by covid
+     */
     public CardData getAffected() {
         LinkedList<OwidCovidData> list = new LinkedList<>(
             RetrieveOwidCovidDataProp.getList().stream()
@@ -306,32 +339,39 @@ public class DashboardService {
         int total = 0;
         int totalForCurrentMon = 0;
         int totalForPrevMon = 0;
+
         for (OwidCovidData owidCovidData : list) {
             try {
-                String newCases = owidCovidData.getNewCases();
-                if (newCases != null && !newCases.trim().isEmpty() && isANumber(newCases)) {
 
-                    total += Integer.parseInt(newCases.trim());
+                if (owidCovidData.getNewCases() != null && !owidCovidData.getNewCases().trim()
+                    .isEmpty() && isANumber(owidCovidData.getNewCases())) {
+                    total += Integer.parseInt(owidCovidData.getNewCases().trim());
+                    log.info("***************** New cases: {}, total: {}",
+                        owidCovidData.getNewCases().trim(), total);
 
                     if (owidCovidData.getDate().contains(lastDateYearAndMonth)) {
-                        totalForCurrentMon += Integer.parseInt(newCases.trim());
+                        totalForCurrentMon += Integer.parseInt(owidCovidData.getNewCases().trim());
                     }
 
                     if (owidCovidData.getDate().contains(prevYearAndMonth)) {
-                        totalForPrevMon += Integer.parseInt(newCases.trim());
+                        totalForPrevMon += Integer.parseInt(owidCovidData.getNewCases().trim());
                     }
                 }
 
 
             } catch (Exception e) {
                 e.printStackTrace();
-                log.error("Get Casualties, {}", e.getMessage());
+                log.error("Get Affected, {}", e.getMessage());
             }
         }
+
+        log.info("***************** total: {}, totalForCurrentMon: {}, totalForPrevMon: {}", total,
+            totalForCurrentMon, totalForPrevMon);
 
         CardData data = new CardData();
         data.setTotal(total);
         data.setPercentageIncreased(totalForCurrentMon > totalForPrevMon);
+
         if (totalForCurrentMon > 0 && totalForPrevMon > 0) {
             if (data.isPercentageIncreased()) {
                 double num = totalForCurrentMon / totalForPrevMon;
@@ -342,9 +382,15 @@ public class DashboardService {
             }
         }
         data.setPercentageTitle("Since last month");
+
+        log.info("***************** Card: {}", data);
         return data;
     }
 
+
+    /**
+     * Builds and return covid casualties/deaths data
+     */
     public CardData getCasualties() {
 
         CardData data = new CardData();
@@ -401,6 +447,11 @@ public class DashboardService {
         return data;
     }
 
+
+    /**
+     * Given the year and month, this method returns the previous year and month from covid dataset
+     * e.g given 2022-05, will return 2022-04
+     */
     private static String getPrevYearAndMonth(LinkedList<OwidCovidData> list,
         String lastDateYearAndMonth) {
 
@@ -418,6 +469,9 @@ public class DashboardService {
         return prevYearAndMonth;
     }
 
+    /**
+     * This method finds and return the last date (the latest date) from covid dataset
+     */
     private static String getLastDateYearAndMonth(LinkedList<OwidCovidData> list) {
         String lastDateYearAndMonth = null;
         for (OwidCovidData owidCovidData : list) {
@@ -434,11 +488,11 @@ public class DashboardService {
         return lastDateYearAndMonth;
     }
 
-    private boolean isANumber(String deaths) {
+    private boolean isANumber(String value) {
         boolean isNum = true;
-        if (deaths != null && !deaths.isEmpty()) {
+        if (value != null && !value.isEmpty()) {
             try {
-                Integer.parseInt(deaths.trim());
+                Integer.parseInt(value.trim());
             } catch (Exception e) {
                 isNum = false;
             }
@@ -446,17 +500,10 @@ public class DashboardService {
         return isNum;
     }
 
-    public CardData getRecoveries() {
-        int min = 1000;
-        int max = 10000000;
-        CardData data = new CardData();
-        data.setTotal((int) (Math.random() * (max - min + 1) + min));
-        data.setPercentage("1.50");
-        data.setPercentageTitle("Since yesterday");
-        data.setPercentageIncreased(rd.nextBoolean());
-        return data;
-    }
 
+    /**
+     * Builds and return registered user data
+     */
     public CardData getRegisteredUser() {
         CardData data = new CardData();
         data.setTotal((int) userRepository.count());
@@ -485,5 +532,20 @@ public class DashboardService {
         return data;
     }
 
+
+    /**
+     * Builds and return covid recoveries data
+     * */
+    public CardData getRecoveries() {
+        //TODO get the data from covid dataset
+        int min = 1000;
+        int max = 10000000;
+        CardData data = new CardData();
+        data.setTotal((int) (Math.random() * (max - min + 1) + min));
+        data.setPercentage("1.50");
+        data.setPercentageTitle("Since yesterday");
+        data.setPercentageIncreased(rd.nextBoolean());
+        return data;
+    }
 
 }

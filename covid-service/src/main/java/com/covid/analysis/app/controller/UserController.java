@@ -41,6 +41,11 @@ public class UserController {
     @Autowired
     private PasswordEncoder encoder;
 
+
+    /**
+     * This method find user details by user ID
+     * Only users with general role (ROLE_USER) can access this method
+     * */
     @GetMapping("/find_users/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> findUsers(@PathVariable("id") Long id) {
@@ -63,6 +68,11 @@ public class UserController {
         }
     }
 
+
+    /**
+     * This method update user details
+     * Only users with general role (ROLE_USER) can access this method
+     * */
     @PostMapping("/update_users")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateUsers(@Valid @RequestBody UserDetails userDetails) {
@@ -84,6 +94,11 @@ public class UserController {
         }
     }
 
+
+    /**
+     * This method update user password
+     * Only users with general role (ROLE_USER) can access this method
+     * */
     @PostMapping("/change_password")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> changePassword(
